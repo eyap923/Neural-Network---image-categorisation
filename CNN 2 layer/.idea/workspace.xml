@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="888aae05-2c6c-4452-aa20-9ded23ddf998" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/conv.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/conv.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,6 +101,10 @@
       <screen x="32" y="0" width="1408" height="960" />
     </state>
     <state x="457" y="95" key="#main/32.0.1408.960@32.0.1408.960" timestamp="1585696406714" />
+    <state x="602" y="75" key="CommitChangelistDialog2" timestamp="1586813600387">
+      <screen x="32" y="0" width="1408" height="960" />
+    </state>
+    <state x="602" y="75" key="CommitChangelistDialog2/32.0.1408.960@32.0.1408.960" timestamp="1586813600387" />
     <state x="517" y="244" key="FileChooserDialogImpl" timestamp="1585696375058">
       <screen x="32" y="0" width="1408" height="960" />
     </state>

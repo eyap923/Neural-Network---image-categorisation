@@ -14,7 +14,6 @@ from sklearn.metrics import confusion_matrix
 # Use GPU if available
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-/*
 
 # functions to show an image
 def imsave(img):
@@ -104,6 +103,13 @@ def main():
     use_cuda = torch.cuda.is_available()
     # Use Cuda if you can
     device = torch.device("cuda" if use_cuda else "cpu")
+
+    # #####################    This is where data procressing and stuff goes
+
+
+
+
+
 
 
     # #####################    Build your network and run   ############################
