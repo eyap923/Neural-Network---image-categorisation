@@ -106,29 +106,6 @@ def main():
     device = torch.device("cuda" if use_cuda else "cpu")
 
 
-    ######################3   Torchvision    ###########################3
-    # Use data predefined loader
-    # Pre-processing by using the transform.Compose
-    # divide into batches
-    kwargs = {'num_workers': 1, 'pin_memory': True} if use_cuda else {}
-    train_loader = torch.utils.data.DataLoader(
-        datasets.MNIST('../data', train=True, download=True,
-                       transform=transforms.Compose([
-                           transforms.ToTensor()
-                       ])),
-        batch_size=64, shuffle=True, **kwargs)
-    test_loader = torch.utils.data.DataLoader(
-        datasets.MNIST('../data', train=False, transform=transforms.Compose([
-                           transforms.ToTensor()
-                       ])),
-        batch_size=1000, shuffle=True, **kwargs)
-
-    # get some random training images
-    dataiter = iter(train_loader)
-    images, labels = dataiter.next()
-    # img = torchvision.utils.make_grid(images)
-    # imsave(img)
-
     # #####################    Build your network and run   ############################
     model = FashionCNN()
     model.to(device)
