@@ -2,12 +2,12 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch
 # The network should inherit from the nn.Module
+##This is the 2 Layer CNN
 
-
-class FashionCNN(nn.Module):
+class FashionCNN2(nn.Module):
 
     def __init__(self):
-        super(FashionCNN, self).__init__()
+        super(FashionCNN2, self).__init__()
 
         self.layer1 = nn.Sequential(
             nn.Conv2d(in_channels=1, out_channels=32, kernel_size=3, padding=1),

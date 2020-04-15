@@ -11,6 +11,8 @@ import torchvision.transforms as transforms
 from torch.utils.data import Dataset, DataLoader
 from sklearn.metrics import confusion_matrix
 
+
+
 # Use GPU if available
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
