@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="888aae05-2c6c-4452-aa20-9ded23ddf998" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/models/VGG.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/conv3layer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/conv4layer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/conv.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/conv.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,9 +131,9 @@
       <screen x="32" y="0" width="1408" height="960" />
     </state>
     <state x="238" y="123" key="SettingsEditor/32.0.1408.960@32.0.1408.960" timestamp="1586143395001" />
-    <state x="433" y="305" key="com.intellij.ide.util.TipDialog" timestamp="1586986220389">
+    <state x="433" y="305" key="com.intellij.ide.util.TipDialog" timestamp="1587079963658">
       <screen x="32" y="0" width="1408" height="960" />
     </state>
-    <state x="433" y="305" key="com.intellij.ide.util.TipDialog/32.0.1408.960@32.0.1408.960" timestamp="1586986220389" />
+    <state x="433" y="305" key="com.intellij.ide.util.TipDialog/32.0.1408.960@32.0.1408.960" timestamp="1587079963658" />
   </component>
 </project>
