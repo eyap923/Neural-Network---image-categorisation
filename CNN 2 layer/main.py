@@ -4,15 +4,15 @@ import matplotlib.pyplot as plt
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from torch.autograd import Variable
 
 import torchvision
-import torchvision.transforms as transforms
+from torchvision import datasets, models, transforms
 from torch.utils.data import Dataset, DataLoader
 from sklearn.metrics import confusion_matrix
-
-from torchvision import datasets, models, transforms
-
+from torch.optim.lr_scheduler import StepLR
+from PIL import Image
 
 
 # Use GPU if available
