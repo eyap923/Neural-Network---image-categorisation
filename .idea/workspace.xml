@@ -25,7 +25,7 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager">
-    <configuration name="Unnamed" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python">
       <module name="CS302-Python-2020-Group21" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -61,10 +61,10 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="140" y="91" width="1086" height="704" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1587020596848">
+    <state x="140" y="91" width="1086" height="704" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1587079438747">
       <screen x="0" y="0" width="1368" height="872" />
     </state>
-    <state x="140" y="91" width="1086" height="704" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1368.872@0.0.1368.872" timestamp="1587020596848" />
+    <state x="140" y="91" width="1086" height="704" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1368.872@0.0.1368.872" timestamp="1587079438747" />
     <state x="466" y="200" key="FileChooserDialogImpl" timestamp="1587078597802">
       <screen x="0" y="0" width="1368" height="872" />
     </state>

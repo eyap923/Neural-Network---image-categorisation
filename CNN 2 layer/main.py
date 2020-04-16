@@ -11,7 +11,7 @@ import torchvision
 from torchvision import datasets, models, transforms
 from torch.utils.data import Dataset, DataLoader
 from sklearn.metrics import confusion_matrix
-from torch.optim.lr_scheduler import StepLR
+#from torch.optim.lr_scheduler import StepLR
 from PIL import Image
 
 
@@ -44,9 +44,6 @@ def train_cnn(log_interval, model, device, train_loader, optimizer, epoch):
 
 
 def test(model, device, test_loader):
-
-    model.eval()
-
     plt.plot(iteration_list, loss_list)
     plt.xlabel("No. of Iteration")
     plt.ylabel("Loss")
@@ -92,17 +89,6 @@ def test(model, device, test_loader):
 
 
 def main():
-    num_epochs = 5
-    count = 0
-    # Lists for visualization of loss and accuracy
-    loss_list = []
-    iteration_list = []
-    accuracy_list = []
-
-    # Lists for knowing classwise accuracy
-    predictions_list = []
-    labels_list = []
-
     # Check whether you can use Cuda
     use_cuda = torch.cuda.is_available()
     # Use Cuda if you can
@@ -140,8 +126,7 @@ def main():
     learning_rate = 0.001
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
-    scheduler = StepLR(optimizer, step_size=1, gamma=gamma)
-
+    #scheduler = StepLR(optimizer, step_size=1, gamma=gamma)
     for epoch in range(num_epochs):
         for images, labels in train_loader:
             # Transfering images and labels to GPU if available
