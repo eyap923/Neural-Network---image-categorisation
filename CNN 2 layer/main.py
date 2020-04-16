@@ -11,6 +11,8 @@ import torchvision.transforms as transforms
 from torch.utils.data import Dataset, DataLoader
 from sklearn.metrics import confusion_matrix
 
+from torchvision import datasets, models, transforms
+
 
 
 # Use GPU if available
@@ -106,11 +108,28 @@ def main():
     # Use Cuda if you can
     device = torch.device("cuda" if use_cuda else "cpu")
 
-    # #####################    This is where data procressing and stuff goes
+    #####################    Data Pre-processing + Loading Training & Test Data
 
+    # Data Augmentation
+    train_transform = transforms.Compose([transforms.RandomRotation((30, 60)), transforms.RandomResizedCrop(28),
+                                          transforms.RandomCrop(28, padding=2), transforms.RandomHorizontalFlip(),
+                                          transforms.RandomVerticalFlip(), transforms.RandomPerspective(),
+                                          transforms.ToTensor()])
 
+    # No data augmentation is being performed on the test data - we want this to keep its representation of the classes
+    test_transform = transforms.Compose(transforms.ToTensor())
 
+    # For CUDA
+    kwargs = {'num_workers': 1, 'pin_memory': True} if use_cuda else {}
 
+    # Choosing FashionMNIST dataset
+    train_data = datasets.FashionMNIST('../data/training', train=True, download=True, transform=train_transform)
+    test_data = datasets.FashionMNIST('data/test', train=False, download=True, transform=test_transform)
+
+    # Using data predefined loader
+    # Combines a dataset and a sampler, and provides an iterable over the given dataset.
+    train_loader = torch.utils.data.DataLoader(train_data, batch_size=100, shuffle=True, **kwargs)
+    test_loader = torch.utils.data.DataLoader(test_data, batch_size=100, shuffle=True, **kwargs)
 
 
 
