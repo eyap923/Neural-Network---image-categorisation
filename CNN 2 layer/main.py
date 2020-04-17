@@ -6,6 +6,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
+from models.conv import FashionCNN2
+
 
 import torchvision
 from torchvision import datasets, models, transforms
@@ -16,7 +18,8 @@ from PIL import Image
 
 
 # Use GPU if available
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+use_cuda = torch.cuda.is_available()
+device = torch.device("cuda:0" if use_cuda else "cpu")
 
 
 # functions to show an image
@@ -28,7 +31,7 @@ def imsave(img):
 
 
 def main():
-
+    save_model = True
     #####################    Data Pre-processing + Loading Training & Test Data
 
     # Data Augmentation
@@ -44,7 +47,7 @@ def main():
     kwargs = {'num_workers': 1, 'pin_memory': True} if use_cuda else {}
 
     # Choosing FashionMNIST dataset
-    train_data = datasets.FashionMNIST('../data/training', train=True, download=True, transform=train_transform)
+    train_data = datasets.FashionMNIST('data/training', train=True, download=True, transform=train_transform)
     test_data = datasets.FashionMNIST('data/test', train=False, download=True, transform=test_transform)
 
     # Using data predefined loader
