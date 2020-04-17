@@ -35,20 +35,19 @@ def main():
     #####################    Data Pre-processing + Loading Training & Test Data
 
     # Data Augmentation
-    train_transform = transforms.Compose([transforms.RandomRotation((30, 60)), transforms.RandomResizedCrop(28),
-                                          transforms.RandomCrop(28, padding=2), transforms.RandomHorizontalFlip(),
-                                          transforms.RandomVerticalFlip(), transforms.RandomPerspective(),
-                                          transforms.ToTensor()])
+    # train_transform = transforms.Compose([transforms.RandomResizedCrop(28),transforms.RandomCrop(28, padding=2), transforms.RandomHorizontalFlip(),
+    #                                       transforms.RandomVerticalFlip(), transforms.RandomPerspective(),
+    #                                       transforms.ToTensor()])
 
     # No data augmentation is being performed on the test data - we want this to keep its representation of the classes
-    test_transform = transforms.Compose(transforms.ToTensor())
+    # test_transform = transforms.Compose(transforms.ToTensor())
 
     # For CUDA
     kwargs = {'num_workers': 1, 'pin_memory': True} if use_cuda else {}
 
     # Choosing FashionMNIST dataset
-    train_data = datasets.FashionMNIST('data/training', train=True, download=True, transform=train_transform)
-    test_data = datasets.FashionMNIST('data/test', train=False, download=True, transform=test_transform)
+    train_data = datasets.FashionMNIST('data/training', train=True, download=True, transform=transforms.Compose([transforms.ToTensor()]))
+    test_data = datasets.FashionMNIST('data/test', train=False, download=True, transform=transforms.Compose([transforms.ToTensor()]))
 
     # Using data predefined loader
     # Combines a dataset and a sampler, and provides an iterable over the given dataset.
@@ -77,6 +76,7 @@ def main():
 
     for epoch in range(num_epochs):
         for images, labels in train_loader:
+            print(count)
             # Transfering images and labels to GPU if available
             images, labels = images.to(device), labels.to(device)
 
@@ -98,34 +98,33 @@ def main():
 
             count += 1
 
-        # Testing the model
-        # Testing the model
+            # Testing the model
+            if not (count % 50):  # It's same as "if count % 50 == 0"
+                total = 0
+                correct = 0
 
-        if not (count % 50):  # It's same as "if count % 50 == 0"
-            total = 0
-            correct = 0
+                for images, labels in test_loader:
+                    images, labels = images.to(device), labels.to(device)
+                    labels_list.append(labels)
 
-            for images, labels in test_loader:
-                images, labels = images.to(device), labels.to(device)
-                labels_list.append(labels)
+                    test = Variable(images.view(100, 1, 28, 28))
 
-                test = Variable(images.view(100, 1, 28, 28))
+                    outputs = model(test)
 
-                outputs = model(test)
+                    predictions = torch.max(outputs, 1)[1].to(device)
+                    predictions_list.append(predictions)
+                    correct += (predictions == labels).sum()
 
-                predictions = torch.max(outputs, 1)[1].to(device)
-                predictions_list.append(predictions)
-                correct += (predictions == labels).sum()
+                    total += len(labels)
 
-                total += len(labels)
+                accuracy = correct * 100 / total
+                loss_list.append(loss.data)
+                iteration_list.append(count)
+                accuracy_list.append(accuracy)
 
-            accuracy = correct * 100 / total
-            loss_list.append(loss.data)
-            iteration_list.append(count)
-            accuracy_list.append(accuracy)
+            if not (count % 500):
+                print("Iteration: {}, Loss: {}, Accuracy: {}%".format(count, loss.data, accuracy))
 
-        if not (count % 500):
-            print("Iteration: {}, Loss: {}, Accuracy: {}%".format(count, loss.data, accuracy))
 
 
     if save_model:
