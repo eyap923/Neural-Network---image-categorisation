@@ -7,13 +7,17 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
 from models.conv import FashionCNN2
+from models.conv3layer import FashionCNN3
+from models.conv4layer import FashionCNN4
+from models.VGG import VGG
+
 
 
 import torchvision
 from torchvision import datasets, models, transforms
 from torch.utils.data import Dataset, DataLoader
 from sklearn.metrics import confusion_matrix
-#from torch.optim.lr_scheduler import StepLR
+from torch.optim.lr_scheduler import StepLR
 from PIL import Image
 
 
@@ -32,7 +36,7 @@ def imsave(img):
 
 def main():
     save_model = True
-    #####################    Data Pre-processing + Loading Training & Test Data
+    #### Data Pre-processing + Loading Training & Test Data ###
 
     # Data Augmentation
     # train_transform = transforms.Compose([transforms.RandomResizedCrop(28),transforms.RandomCrop(28, padding=2), transforms.RandomHorizontalFlip(),
@@ -49,12 +53,46 @@ def main():
     train_data = datasets.FashionMNIST('data/training', train=True, download=True, transform=transforms.Compose([transforms.ToTensor()]))
     test_data = datasets.FashionMNIST('data/test', train=False, download=True, transform=transforms.Compose([transforms.ToTensor()]))
 
+    """Change Model here"""
+    model = FashionCNN3()
+    model_name = FashionCNN3
+    model.to(device)
+
+    # Models used
+    #global batch_size, num_epochs, learning_rate, optimizer, scheduler
+    if (model_name == FashionCNN2):
+        batch_size = 100
+        num_epochs = 5
+        learning_rate = 0.001
+        optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+
+    elif (model_name == FashionCNN3):
+        batch_size = 100
+        num_epochs = 30
+        learning_rate = 0.015
+        optimizer = torch.optim.Adagrad(model.parameters(), lr=learning_rate)
+        scheduler = StepLR(optimizer, step_size=10, gamma=0.1)
+
+    elif (model_name == FashionCNN4):
+        batch_size = 256
+        num_epochs = 10
+        learning_rate = 0.001
+        optimizer = torch.optim.Adagrad(model.parameters(), lr=learning_rate)
+
+    elif (model_name == VGG):
+        batch_size = 512
+        num_epochs = 20
+        learning_rate = 0.001
+        optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+        scheduler = StepLR(optimizer, step_size=10, gamma=0.1)
+
+
     # Using data predefined loader
     # Combines a dataset and a sampler, and provides an iterable over the given dataset.
-    train_loader = torch.utils.data.DataLoader(train_data, batch_size=100, shuffle=True, **kwargs)
-    test_loader = torch.utils.data.DataLoader(test_data, batch_size=100, shuffle=True, **kwargs)
+    train_loader = torch.utils.data.DataLoader(train_data, batch_size=batch_size, shuffle=True, **kwargs)
+    test_loader = torch.utils.data.DataLoader(test_data, batch_size=batch_size, shuffle=True, **kwargs)
 
-    num_epochs = 5
+    #num_epochs = 5
     count = 0
     # Lists for visualization of loss and accuracy
     loss_list = []
@@ -65,18 +103,19 @@ def main():
     predictions_list = []
     labels_list = []
 
-    model = FashionCNN2()
-    model.to(device)
-
     error = nn.CrossEntropyLoss()
 
-    learning_rate = 0.001
-    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+    #learning_rate = 0.001
+    #optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+
     print(model)
 
     for epoch in range(num_epochs):
         for images, labels in train_loader:
+
+            """PRINT COUNT HERE"""
             print(count)
+
             # Transfering images and labels to GPU if available
             images, labels = images.to(device), labels.to(device)
 
@@ -97,6 +136,8 @@ def main():
             optimizer.step()
 
             count += 1
+
+
 
             # Testing the model
             if not (count % 50):  # It's same as "if count % 50 == 0"
@@ -124,6 +165,12 @@ def main():
 
             if not (count % 500):
                 print("Iteration: {}, Loss: {}, Accuracy: {}%".format(count, loss.data, accuracy))
+
+        if ((model == FashionCNN3) or (model == VGG)):
+            scheduler.step()
+
+
+
 
 
 

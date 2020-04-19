@@ -2,7 +2,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch
 # The network should inherit from the nn.Module
-##This is the 3 Layer CNN
+##This is the VGG like model
 
 class VGG(nn.Module):
 
