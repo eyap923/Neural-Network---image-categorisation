@@ -11,8 +11,6 @@ from models.conv3layer import FashionCNN3
 from models.conv4layer import FashionCNN4
 from models.VGG import VGG
 
-
-
 import torchvision
 from torchvision import datasets, models, transforms
 from torch.utils.data import Dataset, DataLoader
@@ -54,8 +52,8 @@ def main():
     test_data = datasets.FashionMNIST('data/test', train=False, download=True, transform=transforms.Compose([transforms.ToTensor()]))
 
     """Change Model here"""
-    model = FashionCNN3()
-    model_name = FashionCNN3
+    model = VGG()
+    model_name = VGG
     model.to(device)
 
     # Models used
@@ -119,7 +117,7 @@ def main():
             # Transfering images and labels to GPU if available
             images, labels = images.to(device), labels.to(device)
 
-            train = Variable(images.view(100, 1, 28, 28))
+            train = Variable(images.view(batch_size, 1, 28, 28))
             labels = Variable(labels)
 
             # Forward pass
@@ -148,7 +146,7 @@ def main():
                     images, labels = images.to(device), labels.to(device)
                     labels_list.append(labels)
 
-                    test = Variable(images.view(100, 1, 28, 28))
+                    test = Variable(images.view(images.size(0), 1, 28, 28))
 
                     outputs = model(test)
 

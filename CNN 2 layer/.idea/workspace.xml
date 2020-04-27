@@ -2,8 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="888aae05-2c6c-4452-aa20-9ded23ddf998" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/MINIST.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MINIST.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/VGG.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/VGG.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/conv4layer.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/conv4layer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,9 +70,9 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\Users\angel\Anaconda3\envs\Lab2\python.exe" />
+      <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
@@ -95,10 +104,14 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="192" y="136" width="1089" height="705" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585696392719">
+    <state x="329" y="139" key="#Inspections" timestamp="1587592525129">
       <screen x="32" y="0" width="1408" height="960" />
     </state>
-    <state x="192" y="136" width="1089" height="705" key="#com.intellij.execution.impl.EditConfigurationsDialog/32.0.1408.960@32.0.1408.960" timestamp="1585696392719" />
+    <state x="329" y="139" key="#Inspections/32.0.1408.960@32.0.1408.960" timestamp="1587592525129" />
+    <state x="-106" y="76" width="1089" height="705" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1587850031314">
+      <screen x="32" y="0" width="1408" height="960" />
+    </state>
+    <state x="-106" y="76" width="1089" height="705" key="#com.intellij.execution.impl.EditConfigurationsDialog/32.0.1408.960@32.0.1408.960" timestamp="1587850031314" />
     <state x="457" y="95" key="#main" timestamp="1585696406714">
       <screen x="32" y="0" width="1408" height="960" />
     </state>
@@ -111,29 +124,29 @@
       <screen x="32" y="0" width="1408" height="960" />
     </state>
     <state x="517" y="244" key="FileChooserDialogImpl/32.0.1408.960@32.0.1408.960" timestamp="1585696375058" />
-    <state width="1387" height="256" key="GridCell.Tab.0.bottom" timestamp="1585728469118">
+    <state width="1387" height="256" key="GridCell.Tab.0.bottom" timestamp="1587947501230">
       <screen x="32" y="0" width="1408" height="960" />
     </state>
-    <state width="1387" height="256" key="GridCell.Tab.0.bottom/32.0.1408.960@32.0.1408.960" timestamp="1585728469118" />
-    <state width="1387" height="256" key="GridCell.Tab.0.center" timestamp="1585728469118">
+    <state width="1387" height="256" key="GridCell.Tab.0.bottom/32.0.1408.960@32.0.1408.960" timestamp="1587947501230" />
+    <state width="1387" height="256" key="GridCell.Tab.0.center" timestamp="1587947501229">
       <screen x="32" y="0" width="1408" height="960" />
     </state>
-    <state width="1387" height="256" key="GridCell.Tab.0.center/32.0.1408.960@32.0.1408.960" timestamp="1585728469118" />
-    <state width="1387" height="256" key="GridCell.Tab.0.left" timestamp="1585728469118">
+    <state width="1387" height="256" key="GridCell.Tab.0.center/32.0.1408.960@32.0.1408.960" timestamp="1587947501229" />
+    <state width="1387" height="256" key="GridCell.Tab.0.left" timestamp="1587947501229">
       <screen x="32" y="0" width="1408" height="960" />
     </state>
-    <state width="1387" height="256" key="GridCell.Tab.0.left/32.0.1408.960@32.0.1408.960" timestamp="1585728469118" />
-    <state width="1387" height="256" key="GridCell.Tab.0.right" timestamp="1585728469118">
+    <state width="1387" height="256" key="GridCell.Tab.0.left/32.0.1408.960@32.0.1408.960" timestamp="1587947501229" />
+    <state width="1387" height="256" key="GridCell.Tab.0.right" timestamp="1587947501230">
       <screen x="32" y="0" width="1408" height="960" />
     </state>
-    <state width="1387" height="256" key="GridCell.Tab.0.right/32.0.1408.960@32.0.1408.960" timestamp="1585728469118" />
-    <state x="238" y="123" key="SettingsEditor" timestamp="1586143395001">
+    <state width="1387" height="256" key="GridCell.Tab.0.right/32.0.1408.960@32.0.1408.960" timestamp="1587947501230" />
+    <state x="238" y="123" key="SettingsEditor" timestamp="1587592748381">
       <screen x="32" y="0" width="1408" height="960" />
     </state>
-    <state x="238" y="123" key="SettingsEditor/32.0.1408.960@32.0.1408.960" timestamp="1586143395001" />
-    <state x="433" y="305" key="com.intellij.ide.util.TipDialog" timestamp="1587079963658">
+    <state x="238" y="123" key="SettingsEditor/32.0.1408.960@32.0.1408.960" timestamp="1587592748381" />
+    <state x="433" y="305" key="com.intellij.ide.util.TipDialog" timestamp="1588022227894">
       <screen x="32" y="0" width="1408" height="960" />
     </state>
-    <state x="433" y="305" key="com.intellij.ide.util.TipDialog/32.0.1408.960@32.0.1408.960" timestamp="1587079963658" />
+    <state x="433" y="305" key="com.intellij.ide.util.TipDialog/32.0.1408.960@32.0.1408.960" timestamp="1588022227894" />
   </component>
 </project>

@@ -10,8 +10,8 @@ class FashionCNN4(nn.Module):
         super(FashionCNN4, self).__init__()
 
         self.layer1 = nn.Sequential(
-            nn.Conv2d(in_channels=1, out_channels=32, kernel_size=3, stride=1, padding=1),
-            nn.BatchNorm2d(32),
+            nn.Conv2d(in_channels=1, out_channels=16, kernel_size=3, stride=1, padding=1),
+            nn.BatchNorm2d(16),
             nn.ReLU()
         )
 
@@ -36,9 +36,9 @@ class FashionCNN4(nn.Module):
             nn.MaxPool2d(kernel_size=2)
         )
         self.flatten = nn.Flatten()
-        self.fc1 = nn.Linear(128 * 6 * 6, 10)
+        self.fc1 = nn.Linear(3136, 10)
         self.batch1 = nn.BatchNorm2d(128)
-        self.fc2 = nn.Linear(128 * 6 * 6, 10)
+        self.fc2 = nn.Linear(3136, 10)
         self.batch2 = nn.BatchNorm2d(128)
         self.softmax = nn.Softmax(dim=1)
 
@@ -49,8 +49,5 @@ class FashionCNN4(nn.Module):
         out = out.view(out.size(0), -1)
         out = self.flatten(out)
         out = F.relu(self.fc1(out))
-        out = self.batch1(out)
-        out = F.relu(self.fc2(out))
-        out = self.batch2(out)
         out = self.softmax(out)
         return out
