@@ -18,6 +18,10 @@ from sklearn.metrics import confusion_matrix
 from torch.optim.lr_scheduler import StepLR
 from PIL import Image
 
+import torchvision.transforms as transforms
+from torch.autograd import Variable
+import torch.nn.functional as F
+
 
 # Use GPU if available
 use_cuda = torch.cuda.is_available()
@@ -51,11 +55,13 @@ def main():
     train_data = datasets.FashionMNIST('data/training', train=True, download=True, transform=transforms.Compose([transforms.ToTensor()]))
     test_data = datasets.FashionMNIST('data/test', train=False, download=True, transform=transforms.Compose([transforms.ToTensor()]))
 
+
     """Change Model here"""
     model = VGG()
     model_name = VGG
     model.to(device)
 
+    criterion = nn.CrossEntropyLoss()
     # Models used
     #global batch_size, num_epochs, learning_rate, optimizer, scheduler
     if (model_name == FashionCNN2):
@@ -108,61 +114,57 @@ def main():
 
     print(model)
 
+    n_iters = 5500
+    num_epochs = n_iters / (len(train_data) / batch_size)
+    num_epochs = int(num_epochs)
+    count = 0;
+    iter = 0
     for epoch in range(num_epochs):
-        for images, labels in train_loader:
-
-            """PRINT COUNT HERE"""
+        for i, (images, labels) in enumerate(train_loader):
             print(count)
-
-            # Transfering images and labels to GPU if available
-            images, labels = images.to(device), labels.to(device)
-
-            train = Variable(images.view(batch_size, 1, 28, 28))
+            images = Variable(images)
             labels = Variable(labels)
 
-            # Forward pass
-            outputs = model(train)
-            loss = error(outputs, labels)
-
-            # Initializing a gradient as 0 so there is no mixing of gradient among the batches
+            # Clear gradients w.r.t. parameters
             optimizer.zero_grad()
 
-            # Propagating the error backward
+            # Forward pass to get output/logits
+            outputs = model(images)
+            count += 1
+            # Calculate Loss: softmax --> cross entropy loss
+            loss = criterion(outputs, labels)
+
+            # Getting gradients w.r.t. parameters
             loss.backward()
 
-            # Optimizing the parameters
+            # Updating parameters
             optimizer.step()
 
-            count += 1
+            iter += 1
 
-
-
-            # Testing the model
-            if not (count % 50):  # It's same as "if count % 50 == 0"
-                total = 0
+            if iter % 500 == 0:
+                # Calculate Accuracy
                 correct = 0
-
+                total = 0
+                # Iterate through test dataset
                 for images, labels in test_loader:
-                    images, labels = images.to(device), labels.to(device)
-                    labels_list.append(labels)
+                    images = Variable(images)
 
-                    test = Variable(images.view(images.size(0), 1, 28, 28))
+                    # Forward pass only to get logits/output
+                    outputs = model(images)
 
-                    outputs = model(test)
+                    # Get predictions from the maximum value
+                    _, predicted = torch.max(outputs.data, 1)
 
-                    predictions = torch.max(outputs, 1)[1].to(device)
-                    predictions_list.append(predictions)
-                    correct += (predictions == labels).sum()
+                    # Total number of labels
+                    total += labels.size(0)
 
-                    total += len(labels)
+                    correct += (predicted == labels).sum()
 
-                accuracy = correct * 100 / total
-                loss_list.append(loss.data)
-                iteration_list.append(count)
-                accuracy_list.append(accuracy)
+                accuracy = 100 * correct / total
 
-            if not (count % 500):
-                print("Iteration: {}, Loss: {}, Accuracy: {}%".format(count, loss.data, accuracy))
+                # Print Loss
+                print('Iteration: {}. Loss: {}. Accuracy: {}'.format(iter, loss.data[0], accuracy))
 
         if ((model == FashionCNN3) or (model == VGG)):
             scheduler.step()
