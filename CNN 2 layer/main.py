@@ -57,8 +57,8 @@ def main():
 
 
     """Change Model here"""
-    model = FashionCNN4()
-    model_name = FashionCNN4
+    model = VGG()
+    model_name = VGG
     model.to(device)
 
     criterion = nn.CrossEntropyLoss()
@@ -142,7 +142,7 @@ def main():
 
             iter += 1
 
-            if iter % 500 == 0:
+            if iter % 30 == 0:
                 # Calculate Accuracy
                 correct = 0
                 total = 0
