@@ -30,7 +30,7 @@ class FashionCNN3(nn.Module):
             nn.MaxPool2d(kernel_size=2)
         )
 
-        self.fc1 = nn.Linear(64 * 6 * 6, 10)
+        self.fc1 = nn.Linear(in_features=64 * 6 * 6, out_features=10)
         self.softmax = nn.Softmax(dim=1)
 
     def forward(self, x):

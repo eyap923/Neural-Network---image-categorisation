@@ -57,8 +57,8 @@ def main():
 
 
     """Change Model here"""
-    model = VGG()
-    model_name = VGG
+    model = FashionCNN3()
+    model_name = FashionCNN3
     model.to(device)
 
     criterion = nn.CrossEntropyLoss()
@@ -163,8 +163,13 @@ def main():
 
                 accuracy = 100 * correct / total
 
+<<<<<<< Updated upstream
                 # Print Loss
                 print("Iteration: {}, Loss: {}, Accuracy: {}%".format(iter, loss.data, accuracy))
+=======
+            if not (count % 50):
+                print("Iteration: {}, Loss: {}, Accuracy: {}%".format(count, loss.data, accuracy))
+>>>>>>> Stashed changes
 
         if ((model == FashionCNN3) or (model == VGG)):
             scheduler.step()

@@ -4,6 +4,10 @@
     <list default="true" id="888aae05-2c6c-4452-aa20-9ded23ddf998" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+<<<<<<< Updated upstream
+=======
+      <change beforePath="$PROJECT_DIR$/models/conv3layer.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/conv3layer.py" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,6 +119,7 @@
       <screen x="32" y="0" width="1408" height="960" />
     </state>
     <state x="517" y="244" key="FileChooserDialogImpl/32.0.1408.960@32.0.1408.960" timestamp="1585696375058" />
+<<<<<<< Updated upstream
     <state width="1387" height="327" key="GridCell.Tab.0.bottom" timestamp="1588057467531">
       <screen x="32" y="0" width="1408" height="960" />
     </state>
@@ -131,6 +136,24 @@
       <screen x="32" y="0" width="1408" height="960" />
     </state>
     <state width="1387" height="327" key="GridCell.Tab.0.right/32.0.1408.960@32.0.1408.960" timestamp="1588057467531" />
+=======
+    <state width="1387" height="187" key="GridCell.Tab.0.bottom" timestamp="1588127265241">
+      <screen x="32" y="0" width="1408" height="960" />
+    </state>
+    <state width="1387" height="187" key="GridCell.Tab.0.bottom/32.0.1408.960@32.0.1408.960" timestamp="1588127265241" />
+    <state width="1387" height="187" key="GridCell.Tab.0.center" timestamp="1588127265241">
+      <screen x="32" y="0" width="1408" height="960" />
+    </state>
+    <state width="1387" height="187" key="GridCell.Tab.0.center/32.0.1408.960@32.0.1408.960" timestamp="1588127265241" />
+    <state width="1387" height="187" key="GridCell.Tab.0.left" timestamp="1588127265241">
+      <screen x="32" y="0" width="1408" height="960" />
+    </state>
+    <state width="1387" height="187" key="GridCell.Tab.0.left/32.0.1408.960@32.0.1408.960" timestamp="1588127265241" />
+    <state width="1387" height="187" key="GridCell.Tab.0.right" timestamp="1588127265241">
+      <screen x="32" y="0" width="1408" height="960" />
+    </state>
+    <state width="1387" height="187" key="GridCell.Tab.0.right/32.0.1408.960@32.0.1408.960" timestamp="1588127265241" />
+>>>>>>> Stashed changes
     <state x="238" y="123" key="SettingsEditor" timestamp="1587592748381">
       <screen x="32" y="0" width="1408" height="960" />
     </state>
