@@ -63,7 +63,7 @@ def main():
 
     criterion = nn.CrossEntropyLoss()
     # Models used
-    #global batch_size, num_epochs, learning_rate, optimizer, scheduler
+    # global batch_size, num_epochs, learning_rate, optimizer, scheduler
     if (model_name == FashionCNN2):
         batch_size = 100
         num_epochs = 5
@@ -163,13 +163,13 @@ def main():
 
                 accuracy = 100 * correct / total
 
-<<<<<<< Updated upstream
+# <<<<<<< Updated upstream
                 # Print Loss
                 print("Iteration: {}, Loss: {}, Accuracy: {}%".format(iter, loss.data, accuracy))
-=======
+# =======
             if not (count % 50):
                 print("Iteration: {}, Loss: {}, Accuracy: {}%".format(count, loss.data, accuracy))
->>>>>>> Stashed changes
+# >>>>>>> Stashed changes
 
         if ((model == FashionCNN3) or (model == VGG)):
             scheduler.step()
