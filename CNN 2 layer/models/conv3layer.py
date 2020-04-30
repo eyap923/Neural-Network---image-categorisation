@@ -39,5 +39,5 @@ class FashionCNN3(nn.Module):
         out = self.layer3(out)
         out = out.view(out.size(0), -1)
         out = self.fc1(out)
-        out = self.softmax(out)
+        ##out = self.softmax(out)
         return out
