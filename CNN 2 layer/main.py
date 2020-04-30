@@ -18,9 +18,12 @@ from sklearn.metrics import confusion_matrix
 from torch.optim.lr_scheduler import StepLR
 from PIL import Image
 
-import torchvision.transforms as transforms
-from torch.autograd import Variable
-import torch.nn.functional as F
+from sklearn import metrics
+
+"""delete these? since have it at the top"""
+# import torchvision.transforms as transforms
+# from torch.autograd import Variable
+# import torch.nn.functional as F
 
 
 # Use GPU if available
@@ -57,8 +60,8 @@ def main():
 
 
     """Change Model here"""
-    model = FashionCNN3()
-    model_name = FashionCNN3
+    model = FashionCNN2()
+    model_name = FashionCNN2
     model.to(device)
 
     criterion = nn.CrossEntropyLoss()
@@ -66,26 +69,26 @@ def main():
     # global batch_size, num_epochs, learning_rate, optimizer, scheduler
     if (model_name == FashionCNN2):
         batch_size = 100
-        num_epochs = 5
+        #num_epochs = 5
         learning_rate = 0.001
         optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
     elif (model_name == FashionCNN3):
         batch_size = 100
-        num_epochs = 30
+        #num_epochs = 30
         learning_rate = 0.015
         optimizer = torch.optim.Adagrad(model.parameters(), lr=learning_rate)
         scheduler = StepLR(optimizer, step_size=10, gamma=0.1)
 
     elif (model_name == FashionCNN4):
         batch_size = 256
-        num_epochs = 10
+        #num_epochs = 10
         learning_rate = 0.001
         optimizer = torch.optim.Adagrad(model.parameters(), lr=learning_rate)
 
     elif (model_name == VGG):
         batch_size = 512
-        num_epochs = 20
+        #num_epochs = 20
         learning_rate = 0.001
         optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
         scheduler = StepLR(optimizer, step_size=10, gamma=0.1)
@@ -97,17 +100,19 @@ def main():
     test_loader = torch.utils.data.DataLoader(test_data, batch_size=batch_size, shuffle=True, **kwargs)
 
     #num_epochs = 5
-    count = 0
+
+    """ARE WE STILL USING THESE"""
     # Lists for visualization of loss and accuracy
-    loss_list = []
-    iteration_list = []
-    accuracy_list = []
+    # loss_list = []
+    # iteration_list = []
+    # accuracy_list = []
+    #
+    # # Lists for knowing classwise accuracy
+    # predictions_list = []
+    # labels_list = []
 
-    # Lists for knowing classwise accuracy
-    predictions_list = []
-    labels_list = []
-
-    error = nn.CrossEntropyLoss()
+    """HAVE CRITERION AT THE TOP ALREADY"""
+    # error = nn.CrossEntropyLoss()
 
     #learning_rate = 0.001
     #optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
@@ -117,27 +122,38 @@ def main():
     n_iters = 5500
     num_epochs = n_iters / (len(train_data) / batch_size)
     num_epochs = int(num_epochs)
-    count = 0;
+    count = 0
     iter = 0
     for epoch in range(num_epochs):
         for i, (images, labels) in enumerate(train_loader):
             print(count)
+
+            # Converts to Tensor
+            # https://pytorch.org/docs/stable/autograd.html
+            # https://stackoverflow.com/questions/57580202/whats-the-purpose-of-torch-autograd-variable
             images = Variable(images)
             labels = Variable(labels)
 
+            # http://seba1511.net/tutorials/beginner/blitz/neural_networks_tutorial.html
             # Clear gradients w.r.t. parameters
+            # Clear previously calculated gradients (if any)
             optimizer.zero_grad()
 
             # Forward pass to get output/logits
             outputs = model(images)
             count += 1
+
             # Calculate Loss: softmax --> cross entropy loss
+            # Calculating loss - how far is the result from ground truth/target
             loss = criterion(outputs, labels)
 
             # Getting gradients w.r.t. parameters
+            # Back propagation - compute gradient of each parameter
+            # https://discuss.pytorch.org/t/how-are-optimizer-step-and-loss-backward-related/7350
             loss.backward()
 
             # Updating parameters
+            # Updating parameters based on gradient calculated
             optimizer.step()
 
             iter += 1
@@ -162,11 +178,19 @@ def main():
                     correct += (predicted == labels).sum()
 
                 accuracy = 100 * correct / total
+                # Print the confusion matrix
+                print(metrics.confusion_matrix(labels, predicted))
+                # Print the precision and recall, among other metrics
+
+                print(metrics.classification_report(labels, predicted, digits=3))
+
+
 
 # <<<<<<< Updated upstream
                 # Print Loss
                 print("Iteration: {}, Loss: {}, Accuracy: {}%".format(iter, loss.data, accuracy))
 # =======
+            """WHY ARE WE PRINTING THIS TWICE?"""
             if not (count % 50):
                 print("Iteration: {}, Loss: {}, Accuracy: {}%".format(count, loss.data, accuracy))
 # >>>>>>> Stashed changes
