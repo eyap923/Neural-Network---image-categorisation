@@ -1,30 +1,23 @@
 import numpy as np
-import pandas as pd
+#import pandas as pd
 import matplotlib.pyplot as plt
 
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
+#import torch.nn.functional as F
 from torch.autograd import Variable
 from models.conv import FashionCNN2
 from models.conv3layer import FashionCNN3
 from models.conv4layer import FashionCNN4
 from models.VGG import VGG
 
-import torchvision
+#import torchvision
 from torchvision import datasets, models, transforms
 from torch.utils.data import Dataset, DataLoader
-from sklearn.metrics import confusion_matrix
 from torch.optim.lr_scheduler import StepLR
 from PIL import Image
-
 from sklearn import metrics
-
-"""delete these? since have it at the top"""
-# import torchvision.transforms as transforms
-# from torch.autograd import Variable
-# import torch.nn.functional as F
-
+from itertools import chain
 
 # Use GPU if available
 use_cuda = torch.cuda.is_available()
@@ -41,15 +34,41 @@ def imsave(img):
 
 def main():
     save_model = True
-    #### Data Pre-processing + Loading Training & Test Data ###
 
-    # Data Augmentation
-    # train_transform = transforms.Compose([transforms.RandomResizedCrop(28),transforms.RandomCrop(28, padding=2), transforms.RandomHorizontalFlip(),
-    #                                       transforms.RandomVerticalFlip(), transforms.RandomPerspective(),
-    #                                       transforms.ToTensor()])
+    """Change Model here"""
+    model = FashionCNN2()
+    model_name = FashionCNN2
+    model.to(device)
 
-    # No data augmentation is being performed on the test data - we want this to keep its representation of the classes
-    # test_transform = transforms.Compose(transforms.ToTensor())
+    # Models used
+    # global batch_size, num_epochs, learning_rate, optimizer, scheduler
+    if (model_name == FashionCNN2):
+        batch_size = 100
+        n_iters = 2600
+        learning_rate = 0.001
+        optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+
+    elif (model_name == FashionCNN3):
+        batch_size = 100
+        n_iters = 2600
+        learning_rate = 0.015
+        optimizer = torch.optim.Adagrad(model.parameters(), lr=learning_rate)
+        scheduler = StepLR(optimizer, step_size=10, gamma=0.1)
+
+    elif (model_name == FashionCNN4):
+        batch_size = 256
+        n_iters = 600
+        learning_rate = 0.001
+        optimizer = torch.optim.Adagrad(model.parameters(), lr=learning_rate)
+
+    elif (model_name == VGG):
+        batch_size = 512
+        n_iters = 300
+        learning_rate = 0.001
+        optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+        scheduler = StepLR(optimizer, step_size=10, gamma=0.1)
+
+
 
     # For CUDA
     kwargs = {'num_workers': 1, 'pin_memory': True} if use_cuda else {}
@@ -59,73 +78,34 @@ def main():
     test_data = datasets.FashionMNIST('data/test', train=False, download=True, transform=transforms.Compose([transforms.ToTensor()]))
 
 
-    """Change Model here"""
-    model = FashionCNN2()
-    model_name = FashionCNN2
-    model.to(device)
-
+    # loss function
     criterion = nn.CrossEntropyLoss()
-    # Models used
-    # global batch_size, num_epochs, learning_rate, optimizer, scheduler
-    if (model_name == FashionCNN2):
-        batch_size = 100
-        #num_epochs = 5
-        learning_rate = 0.001
-        optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
-
-    elif (model_name == FashionCNN3):
-        batch_size = 100
-        #num_epochs = 30
-        learning_rate = 0.015
-        optimizer = torch.optim.Adagrad(model.parameters(), lr=learning_rate)
-        scheduler = StepLR(optimizer, step_size=10, gamma=0.1)
-
-    elif (model_name == FashionCNN4):
-        batch_size = 256
-        #num_epochs = 10
-        learning_rate = 0.001
-        optimizer = torch.optim.Adagrad(model.parameters(), lr=learning_rate)
-
-    elif (model_name == VGG):
-        batch_size = 512
-        #num_epochs = 20
-        learning_rate = 0.001
-        optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
-        scheduler = StepLR(optimizer, step_size=10, gamma=0.1)
-
 
     # Using data predefined loader
     # Combines a dataset and a sampler, and provides an iterable over the given dataset.
     train_loader = torch.utils.data.DataLoader(train_data, batch_size=batch_size, shuffle=True, **kwargs)
     test_loader = torch.utils.data.DataLoader(test_data, batch_size=batch_size, shuffle=True, **kwargs)
 
-    #num_epochs = 5
+    # For visualization of loss and accuracy
+    loss_list = []
+    iteration_list = []
+    accuracy_list = []
 
-    """ARE WE STILL USING THESE"""
-    # Lists for visualization of loss and accuracy
-    # loss_list = []
-    # iteration_list = []
-    # accuracy_list = []
-    #
-    # # Lists for knowing classwise accuracy
-    # predictions_list = []
-    # labels_list = []
-
-    """HAVE CRITERION AT THE TOP ALREADY"""
-    # error = nn.CrossEntropyLoss()
-
-    #learning_rate = 0.001
-    #optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+    # For computing confusion matrix, precision, recall and f1-score
+    predictions_list = []
+    labels_list = []
 
     print(model)
 
-    n_iters = 5500
+    # FIND OUT
+    """Not sure if we should use this cuz VGG can't even finish one epoch on my computer"""
+    """Stops at count 49"""
     num_epochs = n_iters / (len(train_data) / batch_size)
     num_epochs = int(num_epochs)
     count = 0
-    iter = 0
     for epoch in range(num_epochs):
         for i, (images, labels) in enumerate(train_loader):
+
             print(count)
 
             # Converts to Tensor
@@ -156,52 +136,80 @@ def main():
             # Updating parameters based on gradient calculated
             optimizer.step()
 
-            iter += 1
+            """Elizabeth: Why are we doing 30 & 50 btw"""
+            #if not (count % 30):
 
-            if iter % 30 == 0:
+            if not (count % 50):
                 # Calculate Accuracy
                 correct = 0
                 total = 0
                 # Iterate through test dataset
                 for images, labels in test_loader:
                     images = Variable(images)
+                    # labels = Variable(labels)
+                    labels_list.append(labels)
 
                     # Forward pass only to get logits/output
                     outputs = model(images)
 
                     # Get predictions from the maximum value
                     _, predicted = torch.max(outputs.data, 1)
-
+                    predictions_list.append(predicted)
                     # Total number of labels
                     total += labels.size(0)
 
                     correct += (predicted == labels).sum()
-
-                accuracy = 100 * correct / total
-                # Print the confusion matrix
-                print(metrics.confusion_matrix(labels, predicted))
-                # Print the precision and recall, among other metrics
-
-                print(metrics.classification_report(labels, predicted, digits=3))
+                    accuracy = 100 * correct / total
+                """up to this part was in the 30 one"""
 
 
+                loss_list.append(loss.data)
+                iteration_list.append(count)
+                accuracy_list.append(accuracy)
 
-# <<<<<<< Updated upstream
-                # Print Loss
-                print("Iteration: {}, Loss: {}, Accuracy: {}%".format(iter, loss.data, accuracy))
-# =======
-            """WHY ARE WE PRINTING THIS TWICE?"""
-            if not (count % 50):
+
+                # # Print the confusion matrix
+                # print(metrics.confusion_matrix(labels, predicted))
+                #
+                # # Print the precision and recall, among other metrics
+                # print(metrics.classification_report(labels, predicted, digits=3))
+                #
+                # Print loss and accuracy
                 print("Iteration: {}, Loss: {}, Accuracy: {}%".format(count, loss.data, accuracy))
-# >>>>>>> Stashed changes
+
 
         if ((model == FashionCNN3) or (model == VGG)):
             scheduler.step()
 
+    loss_list.append(loss.data)
+    iteration_list.append(count)
+    accuracy_list.append(accuracy)
+    # Print loss and accuracy at the end once again (if the end count isn't % 50 == 0)
+    print("Iteration: {}, Loss: {}, Accuracy: {}%".format(count, loss.data, accuracy))
 
+    # Confusion Matrix, precision, recall & f1-score
+    predictions_l = [predictions_list[i].tolist() for i in range(len(predictions_list))]
+    labels_l = [labels_list[i].tolist() for i in range(len(labels_list))]
+    predictions_l = list(chain.from_iterable(predictions_l))
+    labels_l = list(chain.from_iterable(labels_l))
 
+    print(metrics.confusion_matrix(labels_l, predictions_l))
+    print("Classification report for CNN :\n%s\n" % (metrics.classification_report(labels_l, predictions_l)))
 
+    # To illustrate the learning process
+    plt.figure(1)
+    plt.plot(iteration_list, loss_list)
+    plt.xlabel("No. of Iteration")
+    plt.ylabel("Loss")
+    plt.title("Iterations vs Loss")
+    plt.show()
 
+    plt.figure(2)
+    plt.plot(iteration_list, accuracy_list)
+    plt.xlabel("No. of Iteration")
+    plt.ylabel("Accuracy")
+    plt.title("Iterations vs Accuracy")
+    plt.show()
 
     if save_model:
         torch.save(model.state_dict(), "./results/mnist_cnn.pt")
