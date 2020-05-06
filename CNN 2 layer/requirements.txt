@@ -1,8 +1,7 @@
 PIL
 scikit-learn
-torchvision
 torch
-matplotlib
-pandas
-numpy
+torchvision
 sklearn
+itertools
+matplotlib

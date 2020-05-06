@@ -1,5 +1,3 @@
-import matplotlib.pyplot as plt
-
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
@@ -8,11 +6,11 @@ from models.conv3layer import FashionCNN3
 from models.conv4layer import FashionCNN4
 from models.VGG import VGG
 
-from torchvision import datasets, models, transforms
-from torch.utils.data import Dataset, DataLoader
+from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
 from sklearn import metrics
 from itertools import chain
+import matplotlib.pyplot as plt
 
 # Use GPU if available
 use_cuda = torch.cuda.is_available()

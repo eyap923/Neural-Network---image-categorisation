@@ -1,6 +1,5 @@
 import torch.nn as nn
-import torch.nn.functional as F
-import torch
+
 # The network should inherit from the nn.Module
 ##This is the 4 Layer CNN
 
