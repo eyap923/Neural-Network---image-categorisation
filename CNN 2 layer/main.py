@@ -1,21 +1,16 @@
-import numpy as np
-#import pandas as pd
 import matplotlib.pyplot as plt
 
 import torch
 import torch.nn as nn
-#import torch.nn.functional as F
 from torch.autograd import Variable
 from models.conv import FashionCNN2
 from models.conv3layer import FashionCNN3
 from models.conv4layer import FashionCNN4
 from models.VGG import VGG
 
-#import torchvision
 from torchvision import datasets, models, transforms
 from torch.utils.data import Dataset, DataLoader
 from torch.optim.lr_scheduler import StepLR
-from PIL import Image
 from sklearn import metrics
 from itertools import chain
 
@@ -24,7 +19,6 @@ use_cuda = torch.cuda.is_available()
 device = torch.device("cuda:0" if use_cuda else "cpu")
 
 
-# functions to show an image
 def main():
     save_model = True
 
@@ -39,7 +33,8 @@ def main():
     # All use learning rate decay to improve performance
     # Batch size chosen ro not use too much memory
     # Number of iterations chosen when accuracy begins to flatten
-    # optimizer is responsible for updating the weights of the neurons via backpropagation. It calculates the derivative of the loss function with respect to each weight and subtracts it from the weight.
+    # optimizer is responsible for updating the weights of the neurons via backpropagation.
+    # It calculates the derivative of the loss function with respect to each weight and subtracts it from the weight.
 
     if (model_name == FashionCNN2):
         batch_size = 100
@@ -97,9 +92,6 @@ def main():
 
     print(model)
 
-    # FIND OUT
-    """Not sure if we should use this cuz VGG can't even finish one epoch on my computer"""
-    """Stops at count 49"""
     # Basing epochs off iterations & batch_size to avoid using too much memory
     num_epochs = n_iters / (len(train_data) / batch_size)
     num_epochs = int(num_epochs)
@@ -115,9 +107,9 @@ def main():
             images = Variable(images)
             labels = Variable(labels)
 
-            # http://seba1511.net/tutorials/beginner/blitz/neural_networks_tutorial.html
             # Clear gradients w.r.t. parameters
             # Clear previously calculated gradients (if any)
+            # http://seba1511.net/tutorials/beginner/blitz/neural_networks_tutorial.html
             optimizer.zero_grad()
 
             # Forward pass to get output/logits
@@ -125,7 +117,7 @@ def main():
             count += 1
 
             # Calculate Loss: softmax --> cross entropy loss
-            # Calculating loss - how far is the result from ground truth/target
+            # To find out how far is the result from ground truth/target
             loss = criterion(outputs, labels)
 
             # Getting gradients w.r.t. parameters
@@ -133,20 +125,18 @@ def main():
             # https://discuss.pytorch.org/t/how-are-optimizer-step-and-loss-backward-related/7350
             loss.backward()
 
-            # Updating parameters
             # Updating parameters based on gradient calculated
             optimizer.step()
 
             # Printing every 50 iterations to monitor results
-
             if not (count % 50):
                 # Calculate Accuracy
                 correct = 0
                 total = 0
+
                 # Iterate through test dataset
                 for images, labels in test_loader:
                     images = Variable(images)
-                    # labels = Variable(labels)
                     labels_list.append(labels)
 
                     # Forward pass only to get logits/output
@@ -155,6 +145,7 @@ def main():
                     # Get predictions from the maximum value
                     _, predicted = torch.max(outputs.data, 1)
                     predictions_list.append(predicted)
+
                     # Total number of labels
                     total += labels.size(0)
 
@@ -166,13 +157,6 @@ def main():
                 iteration_list.append(count)
                 accuracy_list.append(accuracy)
 
-
-                # # Print the confusion matrix
-                # print(metrics.confusion_matrix(labels, predicted))
-                #
-                # # Print the precision and recall, among other metrics
-                # print(metrics.classification_report(labels, predicted, digits=3))
-                #
                 # Print loss and accuracy
                 print("Iteration: {}, Loss: {}, Accuracy: {}%".format(count, loss.data, accuracy))
 
@@ -183,15 +167,19 @@ def main():
     loss_list.append(loss.data)
     iteration_list.append(count)
     accuracy_list.append(accuracy)
+    
     # Print loss and accuracy at the end once again (if the end count isn't % 50 == 0)
     print("Iteration: {}, Loss: {}, Accuracy: {}%".format(count, loss.data, accuracy))
 
-    # Confusion Matrix, precision, recall & f1-score
+    # Converts each Tensor values in the list to a list of integer values (lists within a list)
     predictions_l = [predictions_list[i].tolist() for i in range(len(predictions_list))]
     labels_l = [labels_list[i].tolist() for i in range(len(labels_list))]
+
+    # Converts the list of lists to a single big list
     predictions_l = list(chain.from_iterable(predictions_l))
     labels_l = list(chain.from_iterable(labels_l))
 
+    # Confusion Matrix, precision, recall & f1-score
     print(metrics.confusion_matrix(labels_l, predictions_l))
     print("Classification report for CNN :\n%s\n" % (metrics.classification_report(labels_l, predictions_l)))
 
