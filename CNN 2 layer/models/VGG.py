@@ -1,5 +1,5 @@
 import torch.nn as nn
-
+import torch.nn.functional as F
 # The network should inherit from the nn.Module
 ##This is the VGG like model
 

@@ -21,8 +21,8 @@ def main():
     save_model = True
 
     """----------------------Change Model here----------------------"""
-    model = FashionCNN2()
-    model_name = FashionCNN2
+    model = FashionCNN4()
+    model_name = FashionCNN4
     """-------------------------------------------------------------"""
     model.to(device)
 
