@@ -25,28 +25,26 @@ device = torch.device("cuda:0" if use_cuda else "cpu")
 
 
 # functions to show an image
-def imsave(img):
-    npimg = img.numpy()
-    npimg = (np.transpose(npimg, (1, 2, 0)) * 255).astype(np.uint8)
-    im = Image.fromarray(npimg)
-    im.save("./results/your_file.jpeg")
-
-
 def main():
     save_model = True
 
-    """Change Model here"""
+    """----------------------Change Model here----------------------"""
     model = FashionCNN2()
     model_name = FashionCNN2
+    """-------------------------------------------------------------"""
     model.to(device)
 
     # Models used
     # global batch_size, num_epochs, learning_rate, optimizer, scheduler
+    # All use learning rate decay to improve performance
+    # Batch size chosen ro not use too much memory
+    # Number of iterations chosen when accuracy begins to flatten
+    # optimizer is responsible for updating the weights of the neurons via backpropagation. It calculates the derivative of the loss function with respect to each weight and subtracts it from the weight.
+
     if (model_name == FashionCNN2):
         batch_size = 100
         n_iters = 2600
-        learning_rate = 0.001
-        optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+        learning_rate = 0.001optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
     elif (model_name == FashionCNN3):
         batch_size = 100
@@ -79,6 +77,7 @@ def main():
 
 
     # loss function
+    # cross-entropy loss calculates the error rate between the predicted value and the original value
     criterion = nn.CrossEntropyLoss()
 
     # Using data predefined loader
@@ -100,6 +99,7 @@ def main():
     # FIND OUT
     """Not sure if we should use this cuz VGG can't even finish one epoch on my computer"""
     """Stops at count 49"""
+    # Basing epochs off iterations & batch_size to avoid using too much memory
     num_epochs = n_iters / (len(train_data) / batch_size)
     num_epochs = int(num_epochs)
     count = 0
@@ -136,8 +136,7 @@ def main():
             # Updating parameters based on gradient calculated
             optimizer.step()
 
-            """Elizabeth: Why are we doing 30 & 50 btw"""
-            #if not (count % 30):
+            # Printing every 50 iterations to monitor results
 
             if not (count % 50):
                 # Calculate Accuracy
@@ -160,7 +159,6 @@ def main():
 
                     correct += (predicted == labels).sum()
                     accuracy = 100 * correct / total
-                """up to this part was in the 30 one"""
 
 
                 loss_list.append(loss.data)

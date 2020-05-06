@@ -4,6 +4,10 @@ import torch
 # The network should inherit from the nn.Module
 ##This is the 2 Layer CNN
 
+# batch normalization to preprocess every layer of the network by adjusting snd scaling the activations
+
+# Conv2D layers are used for the convolution operation that extracts features from the input images by sliding a convolution filter over the input to produce a feature map.
+# Maxpooling used to reduce the dimensionality of each feature, which helps shorten training time and reduce number of parameters.
 class FashionCNN2(nn.Module):
 
     def __init__(self):
