@@ -36,7 +36,7 @@ def main():
 
     if (model_name == FashionCNN2):
         batch_size = 100
-        n_iters = 1600
+        n_iters = 2600
         learning_rate = 0.001
         optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
