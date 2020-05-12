@@ -21,8 +21,8 @@ def main():
     save_model = True
 
     """----------------------Change Model here----------------------"""
-    model = VGG()
-    model_name = VGG
+    model = FashionCNN4()
+    model_name = FashionCNN4
     """-------------------------------------------------------------"""
     model.to(device)
 
@@ -36,7 +36,7 @@ def main():
 
     if (model_name == FashionCNN2):
         batch_size = 100
-        n_iters = 2600
+        n_iters = 1600
         learning_rate = 0.001
         optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
@@ -80,9 +80,9 @@ def main():
     test_loader = torch.utils.data.DataLoader(test_data, batch_size=batch_size, shuffle=True, **kwargs)
 
     # For visualization of loss and accuracy
-    loss_list = []
-    iteration_list = []
-    accuracy_list = []
+    loss_list = [0]
+    iteration_list = [0]
+    accuracy_list = [0]
 
     # For computing confusion matrix, precision, recall and f1-score
     predictions_list = []
@@ -93,6 +93,7 @@ def main():
     # Basing epochs off iterations & batch_size to avoid using too much memory
     num_epochs = n_iters / (len(train_data) / batch_size)
     num_epochs = int(num_epochs)
+    print(num_epochs)
     count = 0
     for epoch in range(num_epochs):
         for i, (images, labels) in enumerate(train_loader):

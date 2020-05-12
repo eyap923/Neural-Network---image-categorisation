@@ -11,7 +11,7 @@ class FashionCNN4(nn.Module):
         self.layer1 = nn.Sequential(
             nn.Conv2d(in_channels=1, out_channels=16, kernel_size=3, stride=1, padding=1),
             nn.BatchNorm2d(16),
-            nn.ReLU()
+            nn.ReLU(),
         )
 
         self.layer2 = nn.Sequential(
