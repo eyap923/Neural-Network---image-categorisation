@@ -3,10 +3,10 @@
 ## To Run The Code
 
 You will be prompted to enter one of 4 different neural network models. (note, it is not case sensitive)
-The best performing model is 'FashionCNN2', so we reccomend beginning with that model
+The best performing model is 'FashionCNN2', so we recommend beginning with that model
 
 for example
-`We have 4 different models for the Fashion MNIST database, however we reccomend selecting FashionCNN2
+`We have 4 different models for the Fashion MNIST database, however we recommend selecting FashionCNN2
 
 Please Choose your model by typing either 'FashionCNN2''FashionCNN3''FashionCNN4' or 'VGG': 
 fashioncnn2`

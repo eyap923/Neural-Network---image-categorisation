@@ -22,11 +22,11 @@ def main():
     model_name = "fashioncnn2"
     model = FashionCNN2()
     """----------------------Change Model here----------------------"""
-    print("We have 4 different models for the Fashion MNIST database, however we reccomend selecting FashionCNN2 \n")
+    print("We have 4 different models for the Fashion MNIST database, however we recommend selecting FashionCNN2 \n")
     incorrect = True
     while incorrect:
         model_name = input("Please Choose your model by typing either 'FashionCNN2''FashionCNN3''FashionCNN4' or 'VGG': \n").lower()
-        if model_name in {'fashioncnn2', 'fashioncnn3', 'fasioncnn4', 'vgg'}:
+        if model_name in {'fashioncnn2', 'fashioncnn3', 'fashioncnn4', 'vgg'}:
             incorrect = False
         else:
             print("please try again \n")
@@ -35,21 +35,21 @@ def main():
     # Models used
     # global batch_size, num_epochs, learning_rate, optimizer, scheduler
     # All use learning rate decay to improve performance
-    # Batch size chosen ro not use too much memory
+    # Batch size chosen to not use too much memory
     # Number of iterations chosen when accuracy begins to flatten
     # optimizer is responsible for updating the weights of the neurons via backpropagation.
     # It calculates the derivative of the loss function with respect to each weight and subtracts it from the weight.
     if (model_name == 'fashioncnn2'):
         model = FashionCNN2()
         batch_size = 100
-        n_iters = 2600
+        n_iters = 2400
         learning_rate = 0.001
         optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
     elif (model_name == 'fashioncnn3'):
         model = FashionCNN3()
         batch_size = 100
-        n_iters = 2600
+        n_iters = 2400
         learning_rate = 0.015
         optimizer = torch.optim.Adagrad(model.parameters(), lr=learning_rate)
         scheduler = StepLR(optimizer, step_size=10, gamma=0.1)
