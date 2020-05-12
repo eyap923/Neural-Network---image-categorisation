@@ -19,12 +19,18 @@ device = torch.device("cuda:0" if use_cuda else "cpu")
 
 def main():
     save_model = True
-
+    model_name = "fashioncnn2"
+    model = FashionCNN2()
     """----------------------Change Model here----------------------"""
-    model = FashionCNN4()
-    model_name = FashionCNN4
+    print("We have 4 different models for the Fashion MNIST database, however we reccomend selecting FashionCNN2 \n")
+    incorrect = True
+    while incorrect:
+        model_name = input("Please Choose your model by typing either 'FashionCNN2''FashionCNN3''FashionCNN4' or 'VGG': \n").lower()
+        if model_name in {'fashioncnn2', 'fashioncnn3', 'fasioncnn4', 'vgg'}:
+            incorrect = False
+        else:
+            print("please try again \n")
     """-------------------------------------------------------------"""
-    model.to(device)
 
     # Models used
     # global batch_size, num_epochs, learning_rate, optimizer, scheduler
@@ -33,34 +39,37 @@ def main():
     # Number of iterations chosen when accuracy begins to flatten
     # optimizer is responsible for updating the weights of the neurons via backpropagation.
     # It calculates the derivative of the loss function with respect to each weight and subtracts it from the weight.
-
-    if (model_name == FashionCNN2):
+    if (model_name == 'fashioncnn2'):
+        model = FashionCNN2()
         batch_size = 100
         n_iters = 2600
         learning_rate = 0.001
         optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
-    elif (model_name == FashionCNN3):
+    elif (model_name == 'fashioncnn3'):
+        model = FashionCNN3()
         batch_size = 100
         n_iters = 2600
         learning_rate = 0.015
         optimizer = torch.optim.Adagrad(model.parameters(), lr=learning_rate)
         scheduler = StepLR(optimizer, step_size=10, gamma=0.1)
 
-    elif (model_name == FashionCNN4):
+    elif (model_name == "fashioncnn4"):
+        model = FashionCNN4()
         batch_size = 256
         n_iters = 600
         learning_rate = 0.001
         optimizer = torch.optim.Adagrad(model.parameters(), lr=learning_rate)
 
-    elif (model_name == VGG):
+    elif (model_name == "vgg"):
+        model = VGG()
         batch_size = 512
         n_iters = 300
         learning_rate = 0.001
         optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
         scheduler = StepLR(optimizer, step_size=10, gamma=0.1)
 
-
+    model.to(device)
 
     # For CUDA
     kwargs = {'num_workers': 1, 'pin_memory': True} if use_cuda else {}
